@@ -1,11 +1,11 @@
 #include <iostream>
 #include <cilk/cilk.h>
 #include <sys/time.h>
-#define MATRIX_SIZE  (1<<12)
 using namespace std;
 int **X;
 int **Y;
 int **Z;
+int MATRIX_SIZE = (1 << 12);
 
 void  init_matrices() {
 	int i,j;
