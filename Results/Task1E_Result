@@ -1,0 +1,15 @@
+m = 1	631.6 seconds
+m = 2 	332.9 seconds
+m = 3 	272.33
+m = 4 	246.12
+m = 5 	266.185
+m = 6 	275.236
+m = 7 	263.38
+m = 8 	286.291
+m = 9 	265.64
+m = 10 	284.067
+m = 11 	320.051
+m = 12 	1070.24
+
+Time is in seconds
+Note->  m is here power of 2.  actual mxm = pow(2,m)xpow(2,m)
