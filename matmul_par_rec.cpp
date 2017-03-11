@@ -26,6 +26,7 @@ void matMultiplyRec(int Zx0, int Zxn, int Zy0,int Zyn, int Xx0, int Xxn, int Xy0
 		cilk_spawn matMultiplyRec(Zx0,Zx0 +(n/2 -1),Zy0 + n/2,Zy0 + (n-1),Xx0,Xx0 +( n/2 -1),Xy0 + n/2,Xy0 + (n-1),Yx0 + n/2,Yx0 + (n-1),Yy0 + n/2,Yy0 + (n-1),n/2, baseno);
 		cilk_spawn matMultiplyRec(Zx0 + n/2,Zx0 + (n-1),Zy0,Zy0 +( n/2 -1),Xx0 + n/2,Xx0 + (n-1),Xy0 + n/2,Xy0 + (n-1),Yx0 + n/2,Yx0 + (n-1),Yy0,Yy0 +( n/2 -1),n/2, baseno);
 		matMultiplyRec(Zx0 + n/2,Zx0 + (n-1),Zy0 + n/2,Zy0 + (n-1),Xx0 + n/2,Xx0 + (n-1),Xy0 + n/2,Xy0 + (n-1),Yx0 + n/2,Yx0 + (n-1),Yy0 + n/2,Yy0 + (n-1),n/2, baseno);        
+		cilk_sync;
 
 	}
 }
