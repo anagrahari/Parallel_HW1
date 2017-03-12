@@ -58,32 +58,32 @@ void insertSort(int *A, int len) {
 		int j = i;
 		while (j > 0 && A[j-1] > A[j]) {
 			swap<int>(&A[j], &A[j-1]);
-			j = j - 1;
+			j--;
 		}
 	}
 }
 
-void pmergesort(int* from, long l, long r, int* dst, bool fromToDst)
+void pmergesort(int* from, long p, long r, int* dst, bool fromToDst)
 {
-	if (r == l) {
-		if (fromToDst)  dst[l] = from[l];
+	if (r == p) {
+		if (fromToDst)  dst[p] = from[p];
 		return;
 	}
 
-	if ((r - l) <= BASE_LEN  && !fromToDst ) {
-		insertSort( from + l, r - l + 1 );
+	if ((r - p + 1) <= BASE_LEN  && !fromToDst ) {
+		insertSort( from + p, r - p + 1 );
 		return;
 	}
 
-	long m = (( r + l ) / 2);
-	cilk_spawn pmergesort(from, l,     m, dst, !fromToDst);      
+	long m = ((r + p) / 2);
+	cilk_spawn pmergesort(from, p,     m, dst, !fromToDst);      
 		   pmergesort(from, m + 1, r, dst, !fromToDst);      
 	sync;
 
 	if (fromToDst)
-		pmerge( from, l, m, m + 1, r, dst, l);
+		pmerge( from, p, m, m + 1, r, dst, p);
 	else    
-		pmerge(dst, l, m, m + 1, r, from, l);
+		pmerge(dst, p, m, m + 1, r, from, p);
 }
 
 
@@ -103,7 +103,7 @@ int main (int c, char *args[]) {
 	double myTime = (end.tv_sec+(double)end.tv_usec/1000000) -
 			 (start.tv_sec+(double)start.tv_usec/1000000);
 	cout << "Parmsort: " << myTime << " seconds.\n";
-	//printarr(A,ARR_SIZE);
-	//printarr(T,ARR_SIZE);
+	printarr(A,ARR_SIZE);
+	printarr(T,ARR_SIZE);
 	destroy_arr();
 }
