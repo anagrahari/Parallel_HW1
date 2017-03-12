@@ -5,13 +5,13 @@
 using namespace std;
 int *T;
 int *A;
-int ARR_SIZE = (1<<12);
+long ARR_SIZE = (1<<12);
 int BASE_LEN = (1<<4);
 
 
 void init_arr() {
 	struct timeval start,end;
-	int i;
+	long i;
 	srand(time(NULL));
 	T = new int [ARR_SIZE];
 	A = new int [ARR_SIZE];
