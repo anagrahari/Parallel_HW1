@@ -79,6 +79,7 @@ void init_matrix(mat::recursator<matrix_type> A) {
 	}
 
 }
+
 void init_mat(mat::recursator<matrix_type> A) {
 	matrix_type Z = *A;
 	int COUNT = num_rows(Z);
@@ -95,7 +96,18 @@ void init_mat(mat::recursator<matrix_type> A) {
 
 
 	Z[3][4]=4;
-}	
+}
+
+void serial_parentheses(mat::recursator<matrix_type> A) {
+	int i, j, k;
+	matrix_type a = *A;
+	for (i=0; i < num_rows(*A); i++) 
+		for(j=i+2; j < num_rows(*A); j++)
+			for (k=i; k < j; k++)
+				a[i][j] = a[i][j] > a[i][k] + a[k][j] ? 
+						a[i][k] + a[k][j] : a[i][j];	
+}
+	
 int main(int argc, char** args)
 {
 	int n = atoi(args[1]);
@@ -104,9 +116,11 @@ int main(int argc, char** args)
 	mat::recursator<matrix_type>    rec(A);
 
 	init_matrix(rec);	
-	cout << "A is \n" << *(rec) << "\n";
 	aPar(rec);
-	cout << "A is \n" << *(rec) << "\n";
+	cout << "parallel A is \n" << *(rec) << "\n";
+	init_matrix(rec);	
+	serial_parentheses(rec);
+	cout << "serial A is \n" << *(rec) << "\n";
 	/*cout << "upper right quadrant (north_east) of A is \n" 
 	  << *north_east(rec) << "\n";
 	  cout << "upper left  quadrant (north_west) of A is \n" 
