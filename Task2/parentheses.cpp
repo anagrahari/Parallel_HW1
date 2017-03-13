@@ -13,7 +13,7 @@ using namespace mtl; using std::cout;
 typedef morton_dense<double, recursion::morton_z_mask>  matrix_type;
 
 void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
-	 mat::recursator<matrix_type> V) {
+		mat::recursator<matrix_type> V) {
 	matrix_type x = *X;
 	matrix_type u = *U;
 	matrix_type v = *V;
@@ -24,18 +24,18 @@ void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 		cilk_spawn cPar(north_west(X), north_west(U), north_west(V));	
 		cilk_spawn cPar(north_east(X), north_west(U), north_east(V));	
 		cilk_spawn cPar(south_west(X), south_west(U), north_west(V));	
-			   cPar(south_east(X), south_west(U), north_east(V));
+		cPar(south_east(X), south_west(U), north_east(V));
 		sync;
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(V));	
 		cilk_spawn cPar(north_east(X), north_east(U), south_east(V));	
 		cilk_spawn cPar(south_west(X), south_east(U), south_west(V));	
-			   cPar(south_east(X), south_east(U), south_east(V));
+		cPar(south_east(X), south_east(U), south_east(V));
 		sync;
 	}
 }
 
 void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
-	 mat::recursator<matrix_type> V) {
+		mat::recursator<matrix_type> V) {
 	matrix_type x = *X;
 	matrix_type u = *U;
 	matrix_type v = *V;
@@ -45,10 +45,10 @@ void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 	} else {
 		bPar(south_west(X), south_east(U), north_east(V));
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(X));
-			   cPar(south_east(X), south_west(X), north_east(V));
+		cPar(south_east(X), south_west(X), north_east(V));
 		sync;
 		cilk_spawn bPar(north_west(X), north_west(U), north_west(V));
-			   bPar(south_east(X), south_east(U), south_east(V));
+		bPar(south_east(X), south_east(U), south_east(V));
 		sync;
 		cPar(north_east(X), north_east(U), south_east(X));
 		cPar(north_east(X), north_west(X), north_east(V));
@@ -61,7 +61,7 @@ void aPar(mat::recursator<matrix_type> X) {
 		return;
 	} else {
 		cilk_spawn aPar(north_west(X));
-			   aPar(south_east(X));
+		aPar(south_east(X));
 		sync;
 		bPar(north_east(X), north_west(X), south_east(X));
 	}
@@ -77,24 +77,44 @@ void init_matrix(mat::recursator<matrix_type> A) {
 				a[i][j] = LONG_MAX;
 		}
 	}
-	
+
+}
+void init_mat(mat::recursator<matrix_type> A) {
+	matrix_type Z = *A;
+	int COUNT = num_rows(Z);
+	int i, j;
+	for(i=0;i<COUNT;i++)
+		for(j=0;j<COUNT;j++)
+			Z[i][j] = INT_MAX/4;
+
+	for(i=0;i<3;i++)
+		Z[i][i+1]=i+2;
+
+	for(i=4;i<7;i++)
+		Z[i][i+1]=i+1;
+
+
+	Z[3][4]=4;
 }	
-int main(int, char**)
+int main(int argc, char** args)
 {
-	matrix_type  A(8, 8);
+	int n = atoi(args[1]);
+	int MATRIX_SIZE = 1 << n;
+	matrix_type  A(MATRIX_SIZE, MATRIX_SIZE);
 	mat::recursator<matrix_type>    rec(A);
+
 	init_matrix(rec);	
 	cout << "A is \n" << *(rec) << "\n";
 	aPar(rec);
 	cout << "A is \n" << *(rec) << "\n";
 	/*cout << "upper right quadrant (north_east) of A is \n" 
-		<< *north_east(rec) << "\n";
-	cout << "upper left  quadrant (north_west) of A is \n" 
-		<< *north_west(rec) << "\n";
-	cout << "lower right quadrant (south_east) of A is \n" 
-		<< *south_east(rec) << "\n";
-	cout << "lower quadrant (south_west) of A is \n" 
-		<< *south_west(rec) << "\n";
-	*/
+	  << *north_east(rec) << "\n";
+	  cout << "upper left  quadrant (north_west) of A is \n" 
+	  << *north_west(rec) << "\n";
+	  cout << "lower right quadrant (south_east) of A is \n" 
+	  << *south_east(rec) << "\n";
+	  cout << "lower quadrant (south_west) of A is \n" 
+	  << *south_west(rec) << "\n";
+	  */
 	return 0;
 }
