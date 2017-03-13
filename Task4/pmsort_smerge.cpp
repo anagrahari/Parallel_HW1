@@ -56,6 +56,7 @@ void merge(int *A, int p, int q, int r) {
 	while( i <= (q - p)) {
 		A[k++] = TEMP[i++];
 	}
+	delete [] TEMP;
 }
 
 void mergeSort(int * A, int p, int r)
