@@ -10,8 +10,8 @@ all:
 	$(CC) $(CFLAGS) -o matmul_serial_kji matmul_serial_kji.cpp
 	$(CC) $(CFLAGS) -o matmul_par_ikj matmul_par_ikj.cpp
 	$(CC) $(CFLAGS) -o matmul_par_kij matmul_par_kij.cpp
-	$(CC) $(CFLAGS) -o matmul_par_rec matmul_par_rec.cpp
-	$(CC) $(CFLAGS) -I/home1/04757/tg840570/include/  matmul_par_rec_new.cpp -o matmul_par_rec_new 
+	$(CC) $(CFLAGS) -o matmul_par_rec_old  matmul_par_rec_old.cpp
+	$(CC) $(CFLAGS) -I/home1/04757/tg840570/include/  matmul_par_rec.cpp -o matmul_par_rec 
 clean:
 	rm -rf  matmul_serial_ijk
 	rm -rf  matmul_serial_ikj
@@ -21,5 +21,5 @@ clean:
 	rm -rf  matmul_serial_kij
 	rm -rf	matmul_par_ikj
 	rm -rf	matmul_par_kij
+	rm -rf	matmul_par_rec_old
 	rm -rf	matmul_par_rec
-	rm -rf	matmul_par_rec_new
