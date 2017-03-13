@@ -2,6 +2,7 @@
 #include <boost/numeric/mtl/mtl.hpp>
 #include <boost/numeric/mtl/recursion/matrix_recursator.hpp>
 #include <cilk/cilk.h>
+#include <sys/time.h>
 #include <limits.h>
 /*
 #define north_west _11 
@@ -79,7 +80,7 @@ void init_matrix(mat::recursator<matrix_type> A) {
 	}
 
 }
-
+/*
 void init_mat(mat::recursator<matrix_type> A) {
 	matrix_type Z = *A;
 	int COUNT = num_rows(Z);
@@ -97,6 +98,7 @@ void init_mat(mat::recursator<matrix_type> A) {
 
 	Z[3][4]=4;
 }
+*/
 
 void serial_parentheses(mat::recursator<matrix_type> A) {
 	int i, j, k;
@@ -116,19 +118,12 @@ int main(int argc, char** args)
 	mat::recursator<matrix_type>    rec(A);
 
 	init_matrix(rec);	
+	struct timeval start,end;
+	gettimeofday(&start,NULL); //Start timing the computation
 	aPar(rec);
-	cout << "parallel A is \n" << *(rec) << "\n";
-	init_matrix(rec);	
-	serial_parentheses(rec);
-	cout << "serial A is \n" << *(rec) << "\n";
-	/*cout << "upper right quadrant (north_east) of A is \n" 
-	  << *north_east(rec) << "\n";
-	  cout << "upper left  quadrant (north_west) of A is \n" 
-	  << *north_west(rec) << "\n";
-	  cout << "lower right quadrant (south_east) of A is \n" 
-	  << *south_east(rec) << "\n";
-	  cout << "lower quadrant (south_west) of A is \n" 
-	  << *south_west(rec) << "\n";
-	  */
+	gettimeofday(&end,NULL); //Stop timing the computation
+	double myTime = (end.tv_sec+(double)end.tv_usec/1000000) -
+			 (start.tv_sec+(double)start.tv_usec/1000000);
+	cout << "Total time: " << myTime << " seconds.\n";
 	return 0;
 }
