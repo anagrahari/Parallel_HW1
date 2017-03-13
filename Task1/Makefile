@@ -10,6 +10,7 @@ all:
 	$(CC) $(CFLAGS) -o matmul_serial_kji matmul_serial_kji.cpp
 	$(CC) $(CFLAGS) -o matmul_par_ikj matmul_par_ikj.cpp
 	$(CC) $(CFLAGS) -o matmul_par_kij matmul_par_kij.cpp
+	$(CC) $(CFLAGS) -o matmul_par_rec matmul_par_rec.cpp
 clean:
 	rm -rf  matmul_serial_ijk
 	rm -rf  matmul_serial_ikj
@@ -19,3 +20,4 @@ clean:
 	rm -rf  matmul_serial_kij
 	rm -rf	matmul_par_ikj
 	rm -rf	matmul_par_kij
+	rm -rf	matmul_par_rec
