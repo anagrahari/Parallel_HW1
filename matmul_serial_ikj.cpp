@@ -7,7 +7,6 @@ using namespace std;
 
 
 int main() {
-	int Z[MATRIX_SIZE][MATRIX_SIZE];
 	int i,j,k;
 	struct timeval start,end;
 

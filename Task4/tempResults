@@ -1,0 +1,78 @@
+c557-904.stampede(6)$ ./pmsort_pmerge 30 1
+Run with arr_size: 1073741824
+Base Length: 2
+Init started
+Init done 15.1163 seconds.
+Parmsort: 245.657 seconds.
+c557-904.stampede(7)$ ./pmsort_pmerge 30 2
+Run with arr_size: 1073741824
+Base Length: 4
+Init started
+Init done 15.1781 seconds.
+Parmsort: 234.263 seconds.
+c557-904.stampede(8)$ ./pmsort_pmerge 30 3
+Run with arr_size: 1073741824
+Base Length: 8
+Init started
+Init done 15.189 seconds.
+Parmsort: 210.619 seconds.
+c557-904.stampede(9)$ ./pmsort_pmerge 30 4
+Run with arr_size: 1073741824
+Base Length: 16
+Init started
+Init done 15.1581 seconds.
+Parmsort: 206.949 seconds.
+c557-904.stampede(10)$ ./pmsort_pmerge 30 5
+Run with arr_size: 1073741824
+Base Length: 32
+Init started
+Init done 15.1252 seconds.
+Parmsort: 200.183 seconds.
+c557-904.stampede(11)$ ./pmsort_pmerge 30 6
+Run with arr_size: 1073741824
+Base Length: 64
+Init started
+Init done 15.1513 seconds.
+Parmsort: 203.789 seconds.
+c557-904.stampede(12)$ ./pmsort_pmerge 30 7
+Run with arr_size: 1073741824
+Base Length: 128
+Init started
+Init done 15.2631 seconds.
+Parmsort: 194.719 seconds.
+c557-901.stampede(3)$  ./pmsort_pmerge 30 8
+Run with arr_size: 1073741824
+Base Length: 256
+Init started
+Init done 15.1425 seconds.
+Parmsort: 191.632 seconds.
+c557-901.stampede(4)$  ./pmsort_pmerge 30 9
+Run with arr_size: 1073741824
+Base Length: 512
+Init started
+Init done 15.128 seconds.
+Parmsort: 247.923 seconds.
+c558-703.stampede(8)$ ./pmsort_pmerge 30 10
+Run with arr_size: 1073741824
+Base Length: 1024
+Init started
+Init done 15.1113 seconds.
+Parmsort: 237.745 seconds.
+c558-703.stampede(9)$ ./pmsort_pmerge 30 11
+Run with arr_size: 1073741824
+Base Length: 2048
+Init started
+Init done 15.1387 seconds.
+Parmsort: 472.295 seconds.
+c558-703.stampede(10)$ ./pmsort_pmerge 30 12
+Run with arr_size: 1073741824
+Base Length: 4096
+Init started
+Init done 15.1315 seconds.
+Parmsort: 464.545 seconds.
+c557-301.stampede(7)$ ./pmsort_pmerge 30 13
+Run with arr_size: 1073741824
+Base Length: 8192
+Init started
+Init done 15.1532 seconds.
+Parmsort: 1332.82 seconds.
