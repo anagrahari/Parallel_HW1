@@ -1,0 +1,20 @@
+Run with size:8192
+Init started
+Init done 0.704816 seconds.
+I,J Matmul(i,k,j): 1017.83 seconds.
+Init started
+Init done 0.528565 seconds.
+J Matmul(i,k,j): 2762.53 seconds.
+Init started
+Init done 0.517581 seconds.
+I Matmul(i,k,j): 343.734 seconds.
+Run with size:8192
+Init started
+Init done 0.695827 seconds.
+I,J Matmul(k,i,j): 1074.44 seconds.
+Init started
+Init done 0.522533 seconds.
+J Matmul(k,i,j): 2947.64 seconds.
+Init started
+Init done 0.510774 seconds.
+I Matmul(k,i,j): 396.09 seconds.

@@ -2,8 +2,8 @@
 #include <boost/numeric/mtl/mtl.hpp>
 #include <boost/numeric/mtl/recursion/matrix_recursator.hpp>
 #include <cilk/cilk.h>
+#include <time.h>
 #include <sys/time.h>
-#include <limits.h>
 /*
 #define north_west _11 
 #define north_east _12
@@ -73,32 +73,13 @@ void init_matrix(mat::recursator<matrix_type> A) {
 	for (int i = 0; i < num_rows(a); i++) {
 		for (int j = 0; j < num_rows(a); j++) {
 			if (i == j - 1) 
-				a[i][j] = i + j + 2*i*j;
+				a[i][j] = (i + j + 2*i*j);
 			else
 				a[i][j] = LONG_MAX;
 		}
 	}
 
 }
-/*
-void init_mat(mat::recursator<matrix_type> A) {
-	matrix_type Z = *A;
-	int COUNT = num_rows(Z);
-	int i, j;
-	for(i=0;i<COUNT;i++)
-		for(j=0;j<COUNT;j++)
-			Z[i][j] = INT_MAX/4;
-
-	for(i=0;i<3;i++)
-		Z[i][i+1]=i+2;
-
-	for(i=4;i<7;i++)
-		Z[i][i+1]=i+1;
-
-
-	Z[3][4]=4;
-}
-*/
 
 void serial_parentheses(mat::recursator<matrix_type> A) {
 	int i, j, k;
@@ -122,8 +103,13 @@ int main(int argc, char** args)
 	gettimeofday(&start,NULL); //Start timing the computation
 	aPar(rec);
 	gettimeofday(&end,NULL); //Stop timing the computation
+	cout << *rec << "\n";
 	double myTime = (end.tv_sec+(double)end.tv_usec/1000000) -
 			 (start.tv_sec+(double)start.tv_usec/1000000);
 	cout << "Total time: " << myTime << " seconds.\n";
+	init_matrix(rec);
+	serial_parentheses(rec);
+	cout << *rec << "\n";
+	
 	return 0;
 }
