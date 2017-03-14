@@ -16,6 +16,3 @@ touch Result_1E
 ./matmul_par_rec 13 8 >> Result_1E
 ./matmul_par_rec 13 9 >> Result_1E
 ./matmul_par_rec 13 10 >> Result_1E
-./matmul_par_rec 13 11 >> Result_1E
-./matmul_par_rec 13 12 >> Result_1E
-./matmul_par_rec 13 13 >> Result_1E

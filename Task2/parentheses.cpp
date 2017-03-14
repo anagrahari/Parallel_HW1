@@ -25,12 +25,12 @@ void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 		cilk_spawn cPar(north_west(X), north_west(U), north_west(V));	
 		cilk_spawn cPar(north_east(X), north_west(U), north_east(V));	
 		cilk_spawn cPar(south_west(X), south_west(U), north_west(V));	
-		cPar(south_east(X), south_west(U), north_east(V));
+			   cPar(south_east(X), south_west(U), north_east(V));
 		sync;
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(V));	
 		cilk_spawn cPar(north_east(X), north_east(U), south_east(V));	
 		cilk_spawn cPar(south_west(X), south_east(U), south_west(V));	
-		cPar(south_east(X), south_east(U), south_east(V));
+			   cPar(south_east(X), south_east(U), south_east(V));
 		sync;
 	}
 }
@@ -44,12 +44,13 @@ void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 	if (num_rows(X) == 1 && num_cols(X) == 1) {
 		x[0][0] = x[0][0]  < (u[0][0] + v[0][0]) ? x[0][0] : (u[0][0] + v[0][0]);
 	} else {
-		bPar(south_west(X), south_east(U), north_east(V));
+		bPar(south_west(X), south_east(U), north_west(V));
+
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(X));
-		cPar(south_east(X), south_west(X), north_east(V));
+			   cPar(south_east(X), south_west(X), north_east(V));
 		sync;
 		cilk_spawn bPar(north_west(X), north_west(U), north_west(V));
-		bPar(south_east(X), south_east(U), south_east(V));
+			   bPar(south_east(X), south_east(U), south_east(V));
 		sync;
 		cPar(north_east(X), north_east(U), south_east(X));
 		cPar(north_east(X), north_west(X), north_east(V));
@@ -62,7 +63,7 @@ void aPar(mat::recursator<matrix_type> X) {
 		return;
 	} else {
 		cilk_spawn aPar(north_west(X));
-		aPar(south_east(X));
+			   aPar(south_east(X));
 		sync;
 		bPar(north_east(X), north_west(X), south_east(X));
 	}
@@ -84,8 +85,9 @@ void init_matrix(mat::recursator<matrix_type> A) {
 void serial_parentheses(mat::recursator<matrix_type> A) {
 	int i, j, k;
 	matrix_type a = *A;
-	for (i=0; i < num_rows(*A); i++) 
-		for(j=i+2; j < num_rows(*A); j++)
+	int n = num_rows(*A);
+	for (i = n-1; i >= 0; i--) 
+		for(j=i+2; j < n; j++)
 			for (k=i; k < j; k++)
 				a[i][j] = a[i][j] > a[i][k] + a[k][j] ? 
 						a[i][k] + a[k][j] : a[i][j];	
@@ -109,7 +111,7 @@ int main(int argc, char** args)
 	cout << "Total time: " << myTime << " seconds.\n";
 	init_matrix(rec);
 	serial_parentheses(rec);
-	cout << *rec << "\n";
+	cout << "serial \n"<<  *rec << "\n";
 	
 	return 0;
 }
