@@ -86,7 +86,7 @@ void serial_parentheses(mat::recursator<matrix_type> A) {
 	int i, j, k;
 	matrix_type a = *A;
 	int n = num_rows(*A);
-	for (i = n-1; i >= 0; i--) 
+	for (i = 0; i < n; i++) 
 		for(j=i+2; j < n; j++)
 			for (k=i; k < j; k++)
 				a[i][j] = a[i][j] > a[i][k] + a[k][j] ? 
