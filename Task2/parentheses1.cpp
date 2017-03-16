@@ -24,6 +24,56 @@ void serial_parentheses(mat::recursator<matrix_type> A) {
                                                 a[i][k] + a[k][j] : a[i][j];
 }
 
+void serial_parenthesesA(mat::recursator<matrix_type> A) {
+        int i, j, k, t;
+        matrix_type a = *A;
+        int n = num_rows(*A);
+        for (t = 2; t < n; t++){
+                for(i =0 ; i < n-t; i++){
+			j = t + i;
+                        for (k=i+1; k <= j; k++){
+                                a[i][j] = a[i][j] > a[i][k] + a[k][j] ?
+                                                a[i][k] + a[k][j] : a[i][j];
+			}
+		}
+	}
+}
+
+void serial_parenthesesC(mat::recursator<matrix_type> A, mat::recursator<matrix_type> U,
+                mat::recursator<matrix_type> V) {
+        int i, j, k;
+        matrix_type a = *A;
+	matrix_type u = *U;
+        matrix_type v = *V;
+        int n = num_rows(*A);
+        for (i = 0; i < n; i++)
+                for(j =0 ; j < n; j++)
+                        for (k=0; k < n; k++)
+                                a[i][j] = a[i][j] > u[i][k] + v[k][j] ?
+                                                u[i][k] + v[k][j] : a[i][j];
+}
+
+void serial_parenthesesB(mat::recursator<matrix_type> A, mat::recursator<matrix_type> U,
+                mat::recursator<matrix_type> V) {
+        int i, j, k, t;
+        matrix_type a = *A;
+        matrix_type u = *U;
+        matrix_type v = *V;
+        int n = num_rows(*A);
+        for (t = n-1; t >= 0; t--){
+                for(i =t ; i < n; i++){
+			j = i - t;
+                        for (k=i; k < n; k++){
+                                a[i][j] = a[i][j] > u[i][k] + v[k][j] ?
+                                                u[i][k] + v[k][j] : a[i][j];
+			}
+			for (k =0; k <= j;k++) {
+				a[i][j] = a[i][j] > u[i][k] + v[k][j] ?
+                                                u[i][k] + v[k][j] : a[i][j];
+			}
+		}
+	}
+}
 void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 		mat::recursator<matrix_type> V, int BASENO) {
 	matrix_type x = *X;
@@ -31,7 +81,7 @@ void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 	matrix_type v = *V;
 
 	if (num_rows(X) == BASENO && num_cols(X) == BASENO) {
-		serial_parentheses(X);
+		serial_parenthesesC(X, U, V);
 	//	x[0][0] = x[0][0]  < (u[0][0] + v[0][0]) ? x[0][0] : (u[0][0] + v[0][0]);
 	} else {
 		cilk_spawn cPar(north_west(X), north_west(U), north_west(V), BASENO);	
@@ -57,8 +107,8 @@ void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 	matrix_type v = *V;
 
 	if (num_rows(X) == BASENO && num_cols(X) == BASENO) {
-		serial_parentheses(X);
-//		x[0][0] = x[0][0]  < (u[0][0] + v[0][0]) ? x[0][0] : (u[0][0] + v[0][0]);
+		serial_parenthesesB(X, U, V);
+	//	x[0][0] = x[0][0]  < (u[0][0] + v[0][0]) ? x[0][0] : (u[0][0] + v[0][0]);
 	} else {
 		bPar(south_west(X), south_east(U), north_west(V), BASENO);
 
@@ -82,7 +132,7 @@ void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 
 void aPar(mat::recursator<matrix_type> X, int BASENO) {
 	if (num_rows(*X) == BASENO && num_cols(*X) == BASENO) {
-		serial_parentheses(X);
+		serial_parenthesesA(X);
 		return;
 	} else {
 		cilk_spawn aPar(north_west(X), BASENO);
@@ -118,13 +168,13 @@ int main(int argc, char** args)
 	gettimeofday(&start,NULL); //Start timing the computation
 	aPar(rec, BASENO);
 	gettimeofday(&end,NULL); //Stop timing the computation
-	//cout << *rec << "\n";
+	cout << *rec << "\n";
 	double myTime = (end.tv_sec+(double)end.tv_usec/1000000) -
 			 (start.tv_sec+(double)start.tv_usec/1000000);
 	cout << "Total time: " << myTime << " seconds.\n";
-//	init_matrix(rec);
-//	serial_parentheses(rec);
-//	cout << "serial \n"<<  *rec << "\n";
+	init_matrix(rec);
+	serial_parentheses(rec);
+	cout << "serial \n"<<  *rec << "\n";
 	
 	return 0;
 }
