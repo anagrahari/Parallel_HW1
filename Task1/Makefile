@@ -1,5 +1,5 @@
 CC=icpc
-CFLAGS=-g
+CFLAGS=-O0
 
 all:
 	$(CC) $(CFLAGS) -o matmul_serial_ijk matmul_serial_ijk.cpp

@@ -35,7 +35,7 @@ int main(int argc, char *argv []) {
 	int baseno = 1 << atoi(argv[1]);
 	
 	struct timeval start,end;
-	MATRIX_SIZE = 1 << 13;
+	MATRIX_SIZE = 1 << 10;
 	cout << "Run with matrix size:" << MATRIX_SIZE << "\n";
 	{
 		init_matrices();

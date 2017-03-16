@@ -26,12 +26,12 @@ void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 		cilk_spawn cPar(north_east(X), north_west(U), north_east(V));	
 		cilk_spawn cPar(south_west(X), south_west(U), north_west(V));	
 			   cPar(south_east(X), south_west(U), north_east(V));
-		sync;
+		cilk_sync;
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(V));	
 		cilk_spawn cPar(north_east(X), north_east(U), south_east(V));	
 		cilk_spawn cPar(south_west(X), south_east(U), south_west(V));	
 			   cPar(south_east(X), south_east(U), south_east(V));
-		sync;
+		cilk_sync;
 	}
 }
 
@@ -48,10 +48,10 @@ void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(X));
 			   cPar(south_east(X), south_west(X), north_east(V));
-		sync;
+		cilk_sync;
 		cilk_spawn bPar(north_west(X), north_west(U), north_west(V));
 			   bPar(south_east(X), south_east(U), south_east(V));
-		sync;
+		cilk_sync;
 		cPar(north_east(X), north_east(U), south_east(X));
 		cPar(north_east(X), north_west(X), north_east(V));
 		bPar(north_east(X), north_west(U), south_east(V));
@@ -64,7 +64,7 @@ void aPar(mat::recursator<matrix_type> X) {
 	} else {
 		cilk_spawn aPar(north_west(X));
 			   aPar(south_east(X));
-		sync;
+		cilk_sync;
 		bPar(north_east(X), north_west(X), south_east(X));
 	}
 }
@@ -109,6 +109,7 @@ int main(int argc, char** args)
 	double myTime = (end.tv_sec+(double)end.tv_usec/1000000) -
 			 (start.tv_sec+(double)start.tv_usec/1000000);
 	cout << "Total time: " << myTime << " seconds.\n";
+
 	init_matrix(rec);
 	serial_parentheses(rec);
 	cout << "serial \n"<<  *rec << "\n";

@@ -25,12 +25,12 @@ void matMulParRec(mat::recursator<matrix_type> Z, mat::recursator<matrix_type> X
 		cilk_spawn matMulParRec(north_east(Z), north_west(X), north_east(Y), BASENO);	
 		cilk_spawn matMulParRec(south_west(Z), south_west(X), north_west(Y), BASENO);	
 			   matMulParRec(south_east(Z), south_west(X), north_east(Y), BASENO);
-		sync;
+		cilk_sync;
 		cilk_spawn matMulParRec(north_west(Z), north_east(X), south_west(Y), BASENO);	
 		cilk_spawn matMulParRec(north_east(Z), north_east(X), south_east(Y), BASENO);	
 		cilk_spawn matMulParRec(south_west(Z), south_east(X), south_west(Y), BASENO);	
 			   matMulParRec(south_east(Z), south_east(X), south_east(Y), BASENO);
-		sync;
+		cilk_sync;
 	}
 }
 

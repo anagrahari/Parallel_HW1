@@ -31,7 +31,7 @@ void serial_parenthesesA(mat::recursator<matrix_type> A) {
         for (t = 2; t < n; t++){
                 for(i =0 ; i < n-t; i++){
 			j = t + i;
-                        for (k=i+1; k <= j; k++){
+                        for (k = i+1; k <= j; k++){
                                 a[i][j] = a[i][j] > a[i][k] + a[k][j] ?
                                                 a[i][k] + a[k][j] : a[i][j];
 			}
@@ -89,14 +89,14 @@ void cPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 		cilk_spawn cPar(south_west(X), south_west(U), north_west(V), BASENO);	
 			   cPar(south_east(X), south_west(U), north_east(V), BASENO);
 		
-		sync;
+		cilk_sync;
 		
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(V), BASENO);	
 		cilk_spawn cPar(north_east(X), north_east(U), south_east(V), BASENO);	
 		cilk_spawn cPar(south_west(X), south_east(U), south_west(V), BASENO);	
 			   cPar(south_east(X), south_east(U), south_east(V), BASENO);
 		
-		sync;
+		cilk_sync;
 	}
 }
 
@@ -115,12 +115,12 @@ void bPar(mat::recursator<matrix_type> X, mat::recursator<matrix_type> U,
 		cilk_spawn cPar(north_west(X), north_east(U), south_west(X), BASENO);
 			   cPar(south_east(X), south_west(X), north_east(V), BASENO);
 		
-		sync;
+		cilk_sync;
 		
 		cilk_spawn bPar(north_west(X), north_west(U), north_west(V), BASENO);
 			   bPar(south_east(X), south_east(U), south_east(V), BASENO);
 	
-		sync;
+		cilk_sync;
 	
 		cPar(north_east(X), north_east(U), south_east(X), BASENO);
 		
@@ -137,7 +137,7 @@ void aPar(mat::recursator<matrix_type> X, int BASENO) {
 	} else {
 		cilk_spawn aPar(north_west(X), BASENO);
 			   aPar(south_east(X), BASENO);
-		sync;
+		cilk_sync;
 		bPar(north_east(X), north_west(X), south_east(X), BASENO);
 	}
 }
